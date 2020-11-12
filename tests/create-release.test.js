@@ -57,7 +57,7 @@ describe('Create Release', () => {
       .mockReturnValueOnce('myRelease')
       .mockReturnValueOnce('myBody')
       .mockReturnValueOnce('false')
-      .mockReturnValueOnce('')
+      .mockReturnValueOnce('true')
       .mockReturnValueOnce('false');
 
     await run();
@@ -375,5 +375,51 @@ describe('Create Release', () => {
       1,
       'Unsupported semantic version type xyz. Must be one of (major, minor, patch, premajor, prerelease)'
     );
+  });
+
+  test('Test create_release true', async () => {
+    jest.resetModules();
+    mockValues([{ ref: 'v1.0.0' }]);
+    core.getInput = jest
+      .fn()
+      .mockReturnValueOnce('')
+      .mockReturnValueOnce('semantic')
+      .mockReturnValueOnce('premajor')
+      .mockReturnValueOnce('')
+      .mockReturnValueOnce('myRelease')
+      .mockReturnValueOnce('') // <-- The default value for body in action.yml
+      .mockReturnValueOnce('false')
+      .mockReturnValueOnce('true');
+
+    await run();
+
+    expect(createRelease).toHaveBeenCalledWith({
+      owner: 'owner',
+      repo: 'repo',
+      tag_name: 'v2.0.0-beta.0',
+      name: 'myRelease',
+      body: '',
+      draft: false,
+      prerelease: false
+    });
+  });
+
+  test('Test create_release false', async () => {
+    jest.resetModules();
+    mockValues([{ ref: 'v1.0.0' }]);
+    core.getInput = jest
+      .fn()
+      .mockReturnValueOnce('')
+      .mockReturnValueOnce('semantic')
+      .mockReturnValueOnce('premajor')
+      .mockReturnValueOnce('')
+      .mockReturnValueOnce('myRelease')
+      .mockReturnValueOnce('') // <-- The default value for body in action.yml
+      .mockReturnValueOnce('false')
+      .mockReturnValueOnce('false');
+
+    await run();
+
+    expect(createRelease).toHaveBeenCalledTimes(0);
   });
 });

@@ -10491,11 +10491,9 @@ async function run() {
     const body = core.getInput('body', { required: false });
     const draft = core.getInput('draft', { required: false }) === 'true';
 
-    // const createRelease = !isNullString(core.getInput('create_release', { required: false }));
-    const createRelease = core.getInput('create_release', { required: false });
-    const enableCreateRelease = !isNullString(createRelease) ? createRelease : true;
+    const createRelease = core.getInput('create_release', { required: false }) === 'true';
 
-    if (enableCreateRelease) {
+    if (createRelease) {
       // Create a release
       // API Documentation: https://developer.github.com/v3/repos/releases/#create-a-release
       // Octokit Documentation: https://octokit.github.io/rest.js/#octokit-routes-repos-create-release
