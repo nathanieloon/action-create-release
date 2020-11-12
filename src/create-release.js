@@ -165,9 +165,9 @@ async function run() {
     // Create a release
     // API Documentation: https://developer.github.com/v3/repos/releases/#create-a-release
     // Octokit Documentation: https://octokit.github.io/rest.js/#octokit-routes-repos-create-release
-    releaseId = null;
-    htmlUrl = null;
-    uploadUrl = null;
+    var releaseId = null;
+    var htmlUrl = null;
+    var uploadUrl = null;
     if (createRelease) {
       const createReleaseResponse = await octokit.repos.createRelease({
         owner,
