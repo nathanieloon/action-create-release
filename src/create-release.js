@@ -148,6 +148,7 @@ async function run() {
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     const tagName = core.getInput('tag_name', { required: false });
     const scheme = core.getInput('tag_schema', { required: false });
+    const createRelease = core.getInput('create_release', { required: false }) === 'true';
     if (scheme !== Scheme.Continuous && scheme !== Scheme.Semantic) {
       core.setFailed(`Unsupported version scheme: ${scheme}`);
       return;
@@ -164,20 +165,25 @@ async function run() {
     // Create a release
     // API Documentation: https://developer.github.com/v3/repos/releases/#create-a-release
     // Octokit Documentation: https://octokit.github.io/rest.js/#octokit-routes-repos-create-release
-    const createReleaseResponse = await octokit.repos.createRelease({
-      owner,
-      repo,
-      tag_name: tag,
-      name: release,
-      body,
-      draft,
-      prerelease
-    });
+    releaseId = null;
+    htmlUrl = null;
+    uploadUrl = null;
+    if (createRelease) {
+      const createReleaseResponse = await octokit.repos.createRelease({
+        owner,
+        repo,
+        tag_name: tag,
+        name: release,
+        body,
+        draft,
+        prerelease
+      });
 
-    // Get the ID, html_url, and upload URL for the created Release from the response
-    const {
-      data: { id: releaseId, html_url: htmlUrl, upload_url: uploadUrl }
-    } = createReleaseResponse;
+      // Get the ID, html_url, and upload URL for the created Release from the response
+      const {
+        data: { id: releaseId, html_url: htmlUrl, upload_url: uploadUrl }
+      } = createReleaseResponse;
+    }
 
     // Set the output variables for use by other actions: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     core.setOutput('current_tag', tag);
