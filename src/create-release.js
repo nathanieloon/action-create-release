@@ -166,7 +166,6 @@ async function run() {
     const createRelease = core.getInput('create_release', { required: false });
     const enableCreateRelease = !isNullString(createRelease) ? createRelease : true;
 
-
     if (enableCreateRelease) {
       // Create a release
       // API Documentation: https://developer.github.com/v3/repos/releases/#create-a-release
