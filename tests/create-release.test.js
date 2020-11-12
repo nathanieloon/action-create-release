@@ -57,6 +57,7 @@ describe('Create Release', () => {
       .mockReturnValueOnce('myRelease')
       .mockReturnValueOnce('myBody')
       .mockReturnValueOnce('false')
+      .mockReturnValueOnce('')
       .mockReturnValueOnce('false');
 
     await run();
@@ -79,6 +80,7 @@ describe('Create Release', () => {
       .mockReturnValueOnce('continuous')
       .mockReturnValueOnce('myRelease')
       .mockReturnValueOnce('myBody')
+      .mockReturnValueOnce('true')
       .mockReturnValueOnce('true')
       .mockReturnValueOnce('false');
 
@@ -104,6 +106,7 @@ describe('Create Release', () => {
       .mockReturnValueOnce('myRelease')
       .mockReturnValueOnce('') // <-- The default value for body in action.yml
       .mockReturnValueOnce('false')
+      .mockReturnValueOnce('true')
       .mockReturnValueOnce('false');
 
     await run();
@@ -138,6 +141,7 @@ describe('Create Release', () => {
       .mockReturnValueOnce('myRelease')
       .mockReturnValueOnce('') // <-- The default value for body in action.yml
       .mockReturnValueOnce('false')
+      .mockReturnValueOnce('true')
       .mockReturnValueOnce('false');
 
     await run();
@@ -161,6 +165,7 @@ describe('Create Release', () => {
       .mockReturnValueOnce('myRelease')
       .mockReturnValueOnce('myBody')
       .mockReturnValueOnce('false')
+      .mockReturnValueOnce('true')
       .mockReturnValueOnce('false');
 
     core.setOutput = jest.fn();
@@ -181,6 +186,7 @@ describe('Create Release', () => {
       .mockReturnValueOnce('myRelease')
       .mockReturnValueOnce('myBody')
       .mockReturnValueOnce('false')
+      .mockReturnValueOnce('true')
       .mockReturnValueOnce('false');
 
     createRelease.mockRestore();
@@ -207,7 +213,8 @@ describe('Create Release', () => {
       .mockReturnValueOnce('')
       .mockReturnValueOnce('myRelease')
       .mockReturnValueOnce('') // <-- The default value for body in action.yml
-      .mockReturnValueOnce('false');
+      .mockReturnValueOnce('false')
+      .mockReturnValueOnce('true');
 
     await run();
 
@@ -233,7 +240,8 @@ describe('Create Release', () => {
       .mockReturnValueOnce('')
       .mockReturnValueOnce('myRelease')
       .mockReturnValueOnce('') // <-- The default value for body in action.yml
-      .mockReturnValueOnce('false');
+      .mockReturnValueOnce('false')
+      .mockReturnValueOnce('true');
 
     await run();
 
@@ -258,7 +266,8 @@ describe('Create Release', () => {
       .mockReturnValueOnce('prerelease')
       .mockReturnValueOnce('myRelease')
       .mockReturnValueOnce('') // <-- The default value for body in action.yml
-      .mockReturnValueOnce('false');
+      .mockReturnValueOnce('false')
+      .mockReturnValueOnce('true');
 
     await run();
 
@@ -284,7 +293,8 @@ describe('Create Release', () => {
       .mockReturnValueOnce('')
       .mockReturnValueOnce('myRelease')
       .mockReturnValueOnce('') // <-- The default value for body in action.yml
-      .mockReturnValueOnce('false');
+      .mockReturnValueOnce('false')
+      .mockReturnValueOnce('true');
 
     await run();
 
@@ -310,7 +320,8 @@ describe('Create Release', () => {
       .mockReturnValueOnce('')
       .mockReturnValueOnce('myRelease')
       .mockReturnValueOnce('') // <-- The default value for body in action.yml
-      .mockReturnValueOnce('false');
+      .mockReturnValueOnce('false')
+      .mockReturnValueOnce('true');
 
     await run();
 
@@ -335,6 +346,7 @@ describe('Create Release', () => {
       .mockReturnValueOnce('xyz')
       .mockReturnValueOnce('')
       .mockReturnValueOnce('myRelease')
+      .mockReturnValueOnce('true')
       .mockReturnValueOnce('') // <-- The default value for body in action.yml
       .mockReturnValueOnce('false');
 
@@ -353,6 +365,7 @@ describe('Create Release', () => {
       .mockReturnValueOnce('xyz')
       .mockReturnValueOnce('')
       .mockReturnValueOnce('myRelease')
+      .mockReturnValueOnce('true')
       .mockReturnValueOnce('') // <-- The default value for body in action.yml
       .mockReturnValueOnce('false');
 

@@ -144,6 +144,7 @@ async function computeNextTag(scheme) {
 }
 
 async function run() {
+  let createReleaseResponse;
   try {
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     const tagName = core.getInput('tag_name', { required: false });
@@ -161,25 +162,35 @@ async function run() {
     const body = core.getInput('body', { required: false });
     const draft = core.getInput('draft', { required: false }) === 'true';
 
-    // Create a release
-    // API Documentation: https://developer.github.com/v3/repos/releases/#create-a-release
-    // Octokit Documentation: https://octokit.github.io/rest.js/#octokit-routes-repos-create-release
-    const createReleaseResponse = await octokit.repos.createRelease({
-      owner,
-      repo,
-      tag_name: tag,
-      name: release,
-      body,
-      draft,
-      prerelease
-    });
+    // const createRelease = !isNullString(core.getInput('create_release', { required: false }));
+    const createRelease = core.getInput('create_release', { required: false });
+    const enableCreateRelease = !isNullString(createRelease) ? createRelease : true;
 
-    // Get the ID, html_url, and upload URL for the created Release from the response
-    const {
-      data: { id: releaseId, html_url: htmlUrl, upload_url: uploadUrl }
-    } = createReleaseResponse;
+    if (enableCreateRelease) {
+      // Create a release
+      // API Documentation: https://developer.github.com/v3/repos/releases/#create-a-release
+      // Octokit Documentation: https://octokit.github.io/rest.js/#octokit-routes-repos-create-release
+      createReleaseResponse = await octokit.repos.createRelease({
+        owner,
+        repo,
+        tag_name: tag,
+        name: release,
+        body,
+        draft,
+        prerelease
+      });
+
+      // Get the ID, html_url, and upload URL for the created Release from the response
+      // const {
+      //   data: { id: releaseId, html_url: htmlUrl, upload_url: uploadUrl }
+      // } = createReleaseResponse;
+    }
 
     // Set the output variables for use by other actions: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
+    const releaseId = createRelease ? createReleaseResponse.data.id : null;
+    const htmlUrl = createRelease ? createReleaseResponse.data.html_url : null;
+    const uploadUrl = createRelease ? createReleaseResponse.data.upload_url : null;
+
     core.setOutput('current_tag', tag);
     core.setOutput('id', releaseId);
     core.setOutput('html_url', htmlUrl);
